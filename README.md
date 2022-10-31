@@ -1,2 +1,2 @@
 # YSDA
-Here is my work from Yandex School of Data Analysis
+Here is my tasks and homeworks from Yandex School of Data Analysis
