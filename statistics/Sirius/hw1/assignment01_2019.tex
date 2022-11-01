@@ -1,0 +1,156 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{paralist}
+\usepackage{amsthm, amsmath, amsfonts, amssymb}
+\usepackage{mathtools} % \mathclap
+\usepackage{bm}
+\usepackage{dsfont}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{xcolor, colortbl}
+\usepackage{xifthen, xspace}
+\usepackage{caption, subcaption}
+
+\usepackage{sectsty}
+\subsectionfont{\normalsize\color{red}}
+
+% The list of general commands
+\newcommand{\PI}{3.141592654}
+\newcommand{\Sum}{\sum\limits}
+\newcommand{\Int}{\int\limits}
+\newcommand{\Lim}{\lim\limits}
+\newcommand{\Prod}{\prod\limits}
+\newcommand{\Intf}{\int\limits_{-\infty}^{+\infty}}
+\newcommand{\Sumclap}[1]{\Sum_{\mathclap{#1}}}
+\newcommand{\Intclap}[1]{\Int_{\mathclap{#1}}}
+\newcommand{\Prodclap}[1]{\Prod_{\mathclap{#1}}}
+\newcommand{\Aprod}{\bigodot}
+\newcommand{\aprod}{\odot}
+\newcommand{\Max}{\max\limits}
+\newcommand{\Min}{\min\limits}
+\newcommand{\argmax}{\arg\max}
+\newcommand{\argmin}{\arg\min}
+
+\newcommand{\RR}{\mathbb{R}}
+
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+\newcommand{\lf}{\left\{}
+\newcommand{\rf}{\right\}}
+
+\newcommand{\Var}{\mathbb{V}}
+\newcommand{\Exp}{\mathbb{E}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\ecdf}{\hat{F}}
+\newcommand{\Ecdf}[1]{\hat{F}_n(#1)}
+
+\newcommand{\makebold}[1]{\boldsymbol{#1}}
+\newcommand{\angmean}[1]{\left\langle #1 \right\rangle}
+
+\newcommand{\esttheta}{\hat{\theta}}
+\newcommand{\estlambda}{\hat{\lambda}}
+\newcommand{\estsigma}{\hat{\sigma}}
+\newcommand{\estSe}{\hat{\se}}
+
+\newcommand{\estS}{\hat{S}}
+\newcommand{\boldX}{\boldsymbol{X}}
+\newcommand{\boldY}{\boldsymbol{Y}}
+\newcommand{\boldXY}{\boldsymbol{XY}}
+
+\newcommand{\boldx}{\boldsymbol{x}}
+
+\newcommand{\Normal}{\mathcal{N}\xspace}
+\newcommand{\LogN}{\mathrm{LogN}\xspace}
+\newcommand{\Exponential}{\mathrm{Exp}\xspace}
+\newcommand{\hatlambda}{\hat{\lambda}}
+
+\newcommand{\bias}{\ensuremath{\mathrm{bias}\xspace}}
+\newcommand{\se}{\ensuremath{\mathrm{se}\xspace}}
+\newcommand{\MSE}{\ensuremath{\mathrm{MSE}\xspace}}
+\newcommand{\qm}{\ensuremath{\mathrm{qm}\xspace}}
+
+
+
+\title{Домашнее задание №1 по курсу \\ <<Математическая Статистика в Машинном Обучении>>}
+\author{Школа Анализа Данных}
+\date{}
+
+\renewenvironment{itemize}[1]{\begin{compactitem}#1}{\end{compactitem}}
+\renewenvironment{enumerate}[1]{\begin{compactenum}#1}{\end{compactenum}}
+\renewenvironment{description}[0]{\begin{compactdesc}}{\end{compactdesc}}
+% Ненумеруемое замечание
+\newtheorem*{note-none}{Замечание}
+
+\begin{document}
+\maketitle
+
+\subsection*{Задачи}
+
+\subsubsection*{Задача 1 [1 балла]}
+Пусть $\boldX^n = \{X_1, X_2, \dots\}$ --- независимые одинаково распределенные (н.о.р.) случайные величины  с конечными средним $\mu = \Exp(X_1)$ и дисперсией $\sigma^2 = \Var(X_1)$. Покажите, что величины
+$$
+\angmean{\boldX^n} = \frac{1}{n}\Sum_{i=1}^n X_i, \qquad \estS^2_n = \frac{1}{n - 1}\Sum_{i=1}^n (X_i - \angmean{\boldX^n})^2.
+$$
+являются \textit{несмещенными} и \textit{состоятельными} оценками среднего $\mu$ и дисперсии $\sigma^2$, т.е. что
+\begin{itemize}
+	\item $\Exp(\angmean{\boldX^n}) = \mu$ и $\angmean{\boldX^n} \xrightarrow{\Prob} \mu$,
+	\item $\Exp(\estS^2_n) = \sigma^2$ и $\estS_n^2 \xrightarrow{\Prob} \sigma^2$.
+\end{itemize}
+
+\begin{note-none}
+	Конкретно в задачах статистики зачастую под $\boldX^n$ понимается выборка независимых значений случайной величины $X$. В таком случае $\angmean{\boldX^n}$ и $\estS^2_n$ --- оценки среднего и дисперсии по выборке.
+\end{note-none}
+
+\subsubsection*{Задача 2 [1 балла]}
+Пусть $\boldX^n = \{X_1, X_2, \dots, X_n\}$ и $\boldY^m = \{Y_1, Y_2, \dots, Y_m\}$ --- две выборки н.о.р. случайных величин объема $n$ и $m$, полученных из одного и того же распределения. Пусть $\estS^2_X$ и $\estS^2_Y$ --- несмещенные оценки дисперсий по выборкам $\boldX^n$ и $\boldY^m$ соответственно. Выразите несмещенную оценку дисперсии $\estS_{X, Y}$ суммарной выборки через $\estS^2_X$ и $\estS^2_Y$ и средние $\angmean{\boldX^n}$ и $\angmean{\boldY^m}$.
+
+\subsubsection*{Задача 3 [2 балла]}
+Пусть $\boldX^n = \{X_1, \dots, X_n\} \sim \Exponential(\lambda)$, $\hatlambda = 1 / \angmean{\boldX^n}$. Найдите $\bias$, $\se$, $\MSE$ этой оценки. Является ли оценка смещенной? Состоятельной?
+
+\subsubsection*{Задача 4 [2 балла]}
+Пусть $\boldX^{n} = \{X_1, \dots, X_n\} \sim \Normal(0, \sigma^2)$. Пусть для оценки параметра $\sigma$ нормального распределения используется выборочное линейное отклонение $\estsigma = \angmean{|\boldX^{n}|} = n^{-1} \sum_{i=1}^{n} |X_i|$. Найдите $\bias$, $\se$, $\MSE$ оценки $\estsigma$. Является ли оценка несмещенной? Если <<нет>>, то постройте исправленную оценку. Найдите $\se$ исправленной оценки. Является ли исправленная оценка $\estsigma$ состоятельной? 
+
+\subsubsection*{Задача 5 [3 балла]}
+Пусть $\boldX^{n} = \{X_1,\ldots, X_n\} \sim \Normal(\mu, \sigma^2)$, $\theta = e^{\mu}$ и $\esttheta = e^{\angmean{\boldX_{n}}}$. Найдите аналитически плотность распределения $p_{\esttheta}(x)$ оценки $\esttheta = e^{\angmean{\boldX^{n}}}$, математическое ожидание $\Exp(\esttheta)$,  и дисперсию $\Var(\esttheta)$, а также $\bias$, $\se$, $\MSE$ оценки $\esttheta$. Является ли оценка $\esttheta$ смещенной? Состоятельной?
+
+\subsubsection*{Задача 6 [2 балла]}
+Пусть $\Ecdf{x}$ --- эмпирическая функция распределения. Пусть $x$, $y \in \RR$. Найдите ковариацию $\Cov(\Ecdf{x}, \Ecdf{y})$.
+
+\subsubsection*{Задача 7 [2 балла]}
+Пусть $\boldX^{n} = \{X_1, \dots, X_n\} \sim F(x)$, и пусть $\Ecdf{x}$ --- эмпирическая функция распределения. Для фиксированных числе $a, b\in \RR$, таких что $a < b$ определим статистический функционал $T(F) = F(b) - F(a)$. Пусть $\esttheta = \Ecdf{b} - \Ecdf{a}$. Найдите оценку $\estSe$ стандартного отклонения и $(1-\alpha)$-доверительный интервал.
+
+\subsubsection*{Задача 8 [2 балла]}
+Скачайте данные о качестве красных вин. Постройте график для $\ecdf(x;\boldx^n)$ для уровня кислотности (pH). Для каждой точки $x$ постройте:
+\begin{itemize}
+	\item 95\%-ый доверительный интервал на основе неравенства Дворецкого-Кифера-Вольфовица.
+	\item Асимптотический нормальный 95\%-ый доверительный интервал для значения $F(x)$.
+\end{itemize}
+По значениям уровня кислотности $\boldx^n$ подсчитайте оценку $T(\boldx^n)$ для функционала $T(F) = F(3.5) - F(3.4)$ и найдите оцените аналитически стандартное отклонение $\estSe$ оценки $T(\boldx^n)$. Постройте асимптотический нормальный 95\%-ый доверительный интервал для $T(F)$.
+	
+\subsubsection*{Задача 9 [2 балла]}
+В процессе очистки питьевой воды выпадает значительный осадок. Для его уменьшения можно воздействовать на разные факторы,
+в т.ч. на количество микроорганизмов в жидкости, способствующих окислению органики. В группу из $261$ очистительных установок
+был добавлен реагент, подавляющих активность микроорганизмов, а состав остальных $119$ остался без изменений.
+Пусть $\theta$ --- разность в средних значениях количества твердых частиц в этих двух группах установок.
+Оценить по данным \texttt{WaterTreatment} величину $\theta$, оценить стандартную ошибку оценки, построить
+$95\%$ и $99\%$ доверительные интервалы. Какие выводы можно сделать на основе полученных результатов?
+
+\subsubsection*{Задача 10 [2 балла]}
+Провести моделирование, чтобы сравнить различные типы доверительных интервалов, построенных с помощью бутстрепа. Пусть $n = 50$, $T(F) = {\int\lp x-\mu\rp^3dF(x)} / \sigma^{3}$ --- коэффициент асимметрии, где $F$ --- логнормальное распределение. Постройте 95\% доверительные интервалы для $T(F)$ (под $F$ понимается распределение элементов выборки $X_1,\ldots,X_n$) по данным $\boldX^n = \{X_1,\ldots,X_n\}$, используя три подхода на основе бутстрепа.
+
+\begin{note-none}
+	Выборку из логнормального распределения можно сгенерировать из нормального, сначала сгенерировав выборку н.о.р. величин $\boldY^n = \{Y_1, \ldots,Y_n\} \sim \Normal(0,1)$, после чего положив $X_i = e^{Y_i}$, $i = 1,2,\ldots,n$.
+\end{note-none}
+
+\subsubsection*{Задача 11 [2 балла]}
+Пусть $\boldX^n = \{X_1,\ldots, X_n\} \sim \Normal(\mu, 1)$, $\theta = e^{\mu}$ и $\esttheta = e^{\angmean{\boldX^n}}$. 
+Сгенерируйте выборку $\boldX^n$ из $n = 100$ наблюдений для $\mu = 10$.
+Нарисуйте гистограмму  значений $\{\esttheta^*_i\}_{i=1}^B$ бутстрепных оценок. Эта гистограмма является оценкой распределения $p_{\esttheta}(x)$. Сравните ее с настоящим распределением $p_{\esttheta}(x)$.
+Используя бутстреп, подсчитайте величину $\se$ и постройте тремя способами $95\%$ доверительный интервал для $\theta$. 
+
+\end{document}
